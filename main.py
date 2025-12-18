@@ -8,7 +8,7 @@ viz.mouse(viz.ON)
 vizcam.WalkNavigate()
 viz.MainView.setPosition([0, 1.6, 0])
 
-model = viz.add('models/tinker.obj')
+model = viz.add('tinker.obj')
 model.setPosition([0, 0, 5])
 model.setScale([0.1, 0.1, 0.1])
 
