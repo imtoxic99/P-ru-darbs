@@ -52,3 +52,91 @@ def onPick():
         stopRainbowAndRestore()
 
 vizact.onpick(model, onPick)
+
+
+import viz
+import vizact
+import vizcam
+import vizconnect
+import colorsys
+
+viz.go()
+
+
+VR_ACTIVE = True
+
+try:
+    vizconnect.go('my_vr_config.py')
+except:
+    VR_ACTIVE = False
+
+viz.MainView.setPosition([0, 5, -20])
+
+
+if not VR_ACTIVE:
+    vizcam.WalkNavigate()
+
+    viz.mouse(viz.ON)
+
+    def look_on():
+        viz.mouse(viz.OFF)
+
+    def look_off():
+        viz.mouse(viz.ON)
+
+    vizact.onmousedown(viz.MOUSEBUTTON_RIGHT, look_on)
+    vizact.onmouseup(viz.MOUSEBUTTON_RIGHT, look_off)
+
+
+else:
+    viz.mouse(viz.OFF)
+
+
+model = viz.add('models/tinker.obj')
+model.setPosition([0, 0, 5])
+model.setScale([0.2, 0.2, 0.2])
+model.setEuler([0, 90, 0])
+
+
+def moveForward():
+    viz.MainView.move([0, 0, 0.3])
+
+vizact.onkeydown('w', moveForward)
+
+
+is_rainbow = False
+hue = 0.0
+rainbow_timer = None
+HUE_STEP = 0.006
+
+def rainbowStep():
+    global hue
+    r, g, b = colorsys.hsv_to_rgb(hue, 1.0, 1.0)
+    model.color([r, g, b])
+    hue = (hue + HUE_STEP) % 1.0
+
+def startRainbow():
+    global rainbow_timer
+    rainbow_timer = vizact.ontimer(0.02, rainbowStep)
+
+def stopRainbow():
+    global rainbow_timer, hue
+    if rainbow_timer:
+        rainbow_timer.remove()
+        rainbow_timer = None
+    hue = 0.0
+    try:
+        model.apply()
+    except:
+        model.color(viz.WHITE)
+
+def onPick():
+    global is_rainbow
+    if not is_rainbow:
+        is_rainbow = True
+        startRainbow()
+    else:
+        is_rainbow = False
+        stopRainbow()
+
+vizact.onpick(model, onPick)
