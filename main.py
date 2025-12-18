@@ -5,8 +5,8 @@ viz.go()
 viz.mouse(viz.ON)
 
 model = viz.add('models/tinker.obj')
-model.setPosition([0, 0, 5])
-model.setScale([0.1, 0.1, 0.1])
+model.setPosition([0, 0, 6])
+model.setScale([0.2, 0.2, 0.2])
 
 RAINBOW = [
 viz.RED,
