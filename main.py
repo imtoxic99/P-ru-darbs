@@ -19,25 +19,28 @@ viz.PURPLE
 ]
 
 is_rainbow = False
-rainbow_action = None
+color_index = 0
+rainbow_timer = None
+
+def rainbowStep():
+    global color_index
+    model.color(RAINBOW[color_index])
+    color_index = (color_index + 1) % len(RAINBOW)
 
 def startRainbow():
-    global rainbow_action
-    steps = []
-    for c in RAINBOW:
-        steps.append(vizact.method.color(model, c))
-        steps.append(vizact.waittime(0.12))
-        rainbow_action = vizact.sequence(steps)
-        model.addAction(vizact.loop(rainbow_action))
+    global rainbow_timer
+    rainbow_timer = vizact.ontimer(0.12, rainbowStep)
 
 def stopRainbowAndRestore():
-    global rainbow_action
-    model.clearActions()
-    rainbow_action = None
-try:
-    model.apply() 
-except:
-    model.color(viz.WHITE)
+    global rainbow_timer, color_index
+    if rainbow_timer:
+        rainbow_timer.remove()
+        rainbow_timer = None
+    color_index = 0
+    try:
+        model.apply()
+    except:
+        model.color(viz.WHITE)
 
 def onPick():
     global is_rainbow
