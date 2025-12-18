@@ -25,26 +25,26 @@ is_rainbow = False
 rainbow_action = None
 
 def startRainbow():
-global rainbow_action
-seq = vizact.sequence([
-vizact.method.color(model, c),
-vizact.waittime(0.12)
-] for c in RAINBOW)
+    global rainbow_action
+    seq = vizact.sequence([
+        vizact.method.color(model, c),
+        vizact.waittime(0.12)
+        ] for c in RAINBOW)
 
-steps = []
-for chunk in seq:
-steps.extend(chunk)
+    steps = []
+        for chunk in seq:
+            steps.extend(chunk)
 
-rainbow_action = vizact.sequence(steps)
-model.addAction(vizact.loop(rainbow_action))
+    rainbow_action = vizact.sequence(steps)
+    model.addAction(vizact.loop(rainbow_action))
 
 def stopRainbowAndRestore():
-global rainbow_action
-model.clearActions()
-rainbow_action = None
+    global rainbow_action
+    model.clearActions()
+    rainbow_action = None
 
 
 try:
-model.apply()
+    model.apply()
 except:
-model.color(viz.WHITE)
+    model.color(viz.WHITE)
