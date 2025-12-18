@@ -4,7 +4,7 @@ import vizact
 viz.go()
 viz.mouse(viz.ON)
 
-model = viz.add('models/tinker.obj') # или 'tinker.obj'
+model = viz.add('models/tinker.obj')
 model.setPosition([0, 0, 5])
 model.setScale([0.1, 0.1, 0.1])
 
