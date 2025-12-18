@@ -17,3 +17,34 @@ def onPick():
     model.addAction(vizact.moveTo([0, 1.5, 5], time=1))
 
 vizact.onpick(model, onPick)
+
+RAINBOW = [viz.RED, viz.ORANGE, viz.YELLOW, viz.GREEN, viz.CYAN, viz.BLUE, viz.PURPLE]
+
+
+is_rainbow = False
+rainbow_action = None
+
+def startRainbow():
+global rainbow_action
+seq = vizact.sequence([
+vizact.method.color(model, c),
+vizact.waittime(0.12)
+] for c in RAINBOW)
+
+steps = []
+for chunk in seq:
+steps.extend(chunk)
+
+rainbow_action = vizact.sequence(steps)
+model.addAction(vizact.loop(rainbow_action))
+
+def stopRainbowAndRestore():
+global rainbow_action
+model.clearActions()
+rainbow_action = None
+
+
+try:
+model.apply()
+except:
+model.color(viz.WHITE)
