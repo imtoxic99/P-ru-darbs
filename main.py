@@ -20,7 +20,6 @@ vizact.onpick(model, onPick)
 
 RAINBOW = [viz.RED, viz.ORANGE, viz.YELLOW, viz.GREEN, viz.CYAN, viz.BLUE, viz.PURPLE]
 
-
 is_rainbow = False
 rainbow_action = None
 
@@ -43,8 +42,18 @@ def stopRainbowAndRestore():
     model.clearActions()
     rainbow_action = None
 
-
 try:
     model.apply()
 except:
     model.color(viz.WHITE)
+
+def onPick():
+    global is_rainbow
+    if not is_rainbow:
+        is_rainbow = True
+        startRainbow()
+    else:
+        is_rainbow = False
+        stopRainbowAndRestore()
+
+vizact.onpick(model, onPick)
